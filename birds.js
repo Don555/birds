@@ -1,70 +1,55 @@
 (function ()
 {
-var birds = [ ["Duck",1, 23, 0], ["Eagle",3, 4, 0] ];//name 0, quantity 1, price 2, sales 3
+var stock = [[]];//Bird, quantity 1, price 2
+var sells = new Array();//Bird
 
-function addNewType(tName, tQuantity, tPrice)
-{
-    birds.push([tName, tQuantity, tPrice,0]);
+function Bird (type, sellPrice){
+    this.type = type;
+    this.sellPrice = sellPrice;
 }
 
-function buyBirds(tName, tQuantity, tPrice)
+function BuyTransaction(bird, quantity, buyPrice){
+    this.bird = bird;
+    this.buyPrice = buyPrice;
+    this.quantity = quantity;
+}
+
+function buyBirds(BuyTransaction)
 {
-    for(idx in birds){
-        if (birds[idx][0]==tName){
-            birds[idx][1] += tQuantity;
-            birds[idx][2]= tPrice;
+    for (idx in stock){
+        if( stock[idx][0] === BuyTransaction.Bird ){
+            stock[idx][1] += BuyTransaction.quantity;
+            stock[idx][2] = avg(stock[idx][2], BuyTransaction.buyPrice, stock[idx][1]) ;
+        } else {
+            stock.push(BuyTransaction.Bird, BuyTransaction.quantity, BuyTransaction.buyPrice);
         }
+
     }
-}
 
-function saleBirds(tName, tQuantity, tPrice)
-{
-    birds.push([tName, tQuantity, tPrice,0]);
 }
-
+function avg ( quantity, price1, price2){
+        return (price1 + price2) / quantity;
+}
 
 function printAll()
 {
-    for (idx in birds)
+    for (idx in stock)
     {
-        var bird = birds[idx];
-        console.log(bird);
+        var bird = stock[idx];
+        console.log(stock);
     }
 }
+
+var duck = new Bird("duck", 90);
+
+var first = new BuyTransaction(duck, 100, 50);
+var second = new BuyTransaction(duck, 50, 100);
+
+buyBirds(first);
+buyBirds(second);
 
 printAll();
 
-function getInventoryReport()
-{
-        console.log("------------------Inventory Report----------------------------");
-        console.log("Type-|-Quantity-----------------------------------------------");
-    var next;
-
-    for(next in birds){
-        console.log("--------------------------------------------------------------");
-        console.log(birds[next][0]+ " | " + birds[next][1]);
-    }
-        console.log("------------------END of Inventory Report---------------------");
-}
-
-function getSaleReport()
-{
-        console.log("------------------Sales Report----------------------------");
-        console.log("Type-|-Sales-----------------------------------------------");
-    var next;
-
-    for(next in birds){
-        console.log("--------------------------------------------------------------");
-        console.log(birds[next][0]+ " | " + birds[next][3]);
-    }
-        console.log("------------------END of Sales Report---------------------");
-}
-
-
-addNewType("Penguin", 1, 100);
-buyBirds("Penguin", 4, 100);
-getInventoryReport();
-getSaleReport();
 
 
 })();

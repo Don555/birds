@@ -21,7 +21,7 @@ function buyBirds(BuyTransaction)
             stock[idx][1] += BuyTransaction.quantity;
             stock[idx][2] = avg(stock[idx][2], BuyTransaction.buyPrice, stock[idx][1]) ;
         } else {
-            stock.push(BuyTransaction.Bird, BuyTransaction.quantity, BuyTransaction.buyPrice);
+            stock.push([BuyTransaction.Bird, BuyTransaction.quantity, BuyTransaction.buyPrice]);
         }
 
     }
@@ -35,8 +35,7 @@ function printAll()
 {
     for (idx in stock)
     {
-        var bird = stock[idx];
-        console.log(stock);
+        console.log(stock[idx]);
     }
 }
 
